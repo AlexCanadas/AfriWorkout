@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cargas Entrenamiento - Gym Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Creamy/Femenine Palette */
+            --bg-primary: #FDF8F3;
+            --bg-secondary: #FFF5EB;
+            --bg-card: #FFFFFF;
+            --bg-input: #FDF2E9;
+            --accent-primary: #E8A598;
+            --accent-secondary: #D4847C;
+            --accent-tertiary: #F4C2C2;
+            --text-primary: #5A4A42;
+            --text-secondary: #8B7B73;
+            --text-muted: #B5A49A;
+            --border: #F0E0D5;
+            --success: #88C9A1;
+            --warning: #E6B89C;
+            --danger: #E07A5F;
+            --shadow: rgba(139, 123, 115, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .phase-badge {
+            background: rgba(232, 165, 152, 0.15);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .edit-btn {
+            background: transparent;
+            border: 1px solid var(--warning);
+            color: var(--warning);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: rgba(230, 184, 156, 0.1);
+        }
+
+        .edit-btn.active {
+            background: var(--warning);
+            color: white;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day-tabs {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            min-width: max-content;
+        }
+
+        .day-tab {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-tab:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .day-tab.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 165, 152, 0.3);
+        }
+
+        .day-tab.completed {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .day-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .day-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .day-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Exercise Card */
+        .exercise-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .exercise-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            border-radius: 24px 0 0 24px;
+        }
+
+        .superset-badge {
+            background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));
+            color: white;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 15px;
+        }
+
+        .exercise-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .exercise-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .video-link {
+            background: rgba(232, 165, 152, 0.1);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-secondary);
+            padding: 8px 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .video-link:hover {
+            background: rgba(232, 165, 152, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            background: rgba(224, 122, 95, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            display: none;
+        }
+
+        .edit-mode .delete-btn {
+            display: block;
+        }
+
+        .exercise-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg-input);
+            border-radius: 16px;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Sets Container */
+        .sets-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .set-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 1fr 60px;
+            gap: 10px;
+            align-items: center;
+            background: var(--bg-input);
+            padding: 12px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .set-row:hover {
+            border-color: var(--accent-tertiary);
+        }
+
+        .set-row.completed {
+            background: rgba(136, 201, 161, 0.1);
+            border-color: var(--success);
+        }
+
+        .set-number {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .weight-input, .reps-input {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .weight-input:focus, .reps-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(232, 165, 152, 0.1);
+        }
+
+        .weight-input::placeholder, .reps-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .set-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--text-muted);
+            border-radius: 50%;
+            cursor: pointer;
+            appearance: none;
+            position: relative;
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .set-checkbox:hover {
+            border-color: var(--accent-primary);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(232, 165, 152, 0.2);
+        }
+
+        .set-checkbox:checked {
+            background: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 15px rgba(136, 201, 161, 0.4);
+            transform: scale(1.05);
+        }
+
+        .set-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .remove-set-btn {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .edit-mode .remove-set-btn {
+            display: flex;
+        }
+
+        /* Notes Section */
+        .notes-section {
+            background: rgba(232, 165, 152, 0.08);
+            border-left: 3px solid var(--accent-primary);
+            padding: 16px;
+            border-radius: 0 16px 16px 0;
+            margin-top: 16px;
+        }
+
+        .notes-title {
+            font-size: 12px;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .notes-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Edit Mode Styles */
+        .edit-mode .exercise-name {
+            background: var(--bg-input);
+            border: 1px solid var(--accent-primary);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: text;
+        }
+
+        /* Add Exercise Button */
+        .add-exercise-btn {
+            width: 100%;
+            padding: 20px;
+            background: rgba(232, 165, 152, 0.08);
+            border: 2px dashed var(--accent-primary);
+            color: var(--accent-secondary);
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .edit-mode .add-exercise-btn {
+            display: block;
+        }
+
+        .add-exercise-btn:hover {
+            background: rgba(232, 165, 152, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .add-set-btn {
+            background: rgba(136, 201, 161, 0.1);
+            border: 1px dashed var(--success);
+            color: var(--success);
+            padding: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+            width: 100%;
+            display: none;
+        }
+
+        .edit-mode .add-set-btn {
+            display: block;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 15px 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-info {
+            flex: 1;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-input);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .reset-day-btn {
+            background: transparent;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-day-btn:hover {
+            background: rgba(224, 122, 95, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .complete-day-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(232, 165, 152, 0.3);
+        }
+
+        .complete-day-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 165, 152, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(90, 74, 66, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(139, 123, 115, 0.2);
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Stats Summary */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .edit-hint {
+            background: rgba(230, 184, 156, 0.15);
+            border: 1px solid var(--warning);
+            color: var(--accent-secondary);
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .edit-mode .edit-hint {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .exercise-meta {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .set-row {
+                grid-template-columns: 30px 1fr 1fr 50px;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .day-title {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .reset-day-btn, .complete-day-btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Mi Plan Fitness</div>
+            <div class="header-buttons">
+                <button class="phase-badge" onclick="toggleEditMode()" id="editToggle">Editar</button>
+                <div class="phase-badge">3 Días</div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="day-tabs">
+            <button class="day-tab active" onclick="switchDay('day1')">Día 1</button>
+            <button class="day-tab" onclick="switchDay('day2')">Día 2</button>
+            <button class="day-tab" onclick="switchDay('day3')">Día 3</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Edit Mode Hint -->
+        <div class="edit-hint">
+            ✏️ Modo Edición: Toca nombres para editar, usa + para añadir ejercicios/series, o 🗑️ para eliminar
+        </div>
+
+        <!-- Day 1 -->
+        <section id="day1" class="day-section active">
+            <h2 class="day-title">Día 1: Lower Body</h2>
+            <p class="day-subtitle">Femoral, Glúteos y Cuádriceps</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="day1-completed">0/5</div>
+                    <div class="stat-label">Ejercicios</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="day1-volume">0</div>
+                    <div class="stat-label">Series Hechas</div>
+                </div>
+            </div>
+
+            <button class="add-exercise-btn" onclick="openAddExerciseModal('day1')">+ Añadir Ejercicio</button>
+            <div id="day1-exercises"></div>
+        </section>
+
+        <!-- Day 2 -->
+        <section id="day2" class="day-section">
+            <h2 class="day-title">Día 2: Upper Body</h2>
+            <p class="day-subtitle">Empuje, Espalda y Hombros</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="day2-completed">0/5</div>
+                    <div class="stat-label">Ejercicios</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="day2-volume">0</div>
+                    <div class="stat-label">Series Hechas</div>
+                </div>
+            </div>
+
+            <button class="add-exercise-btn" onclick="openAddExerciseModal('day2')">+ Añadir Ejercicio</button>
+            <div id="day2-exercises"></div>
+        </section>
+
+        <!-- Day 3 -->
+        <section id="day3" class="day-section">
+            <h2 class="day-title">Día 3: Posterior Chain</h2>
+            <p class="day-subtitle">Espalda Baja, Peso Muerto y Glúteos</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="day3-completed">0/3</div>
+                    <div class="stat-label">Ejercicios</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="day3-volume">0</div>
+                    <div class="stat-label">Series Hechas</div>
+                </div>
+            </div>
+
+            <button class="add-exercise-btn" onclick="openAddExerciseModal('day3')">+ Añadir Ejercicio</button>
+            <div id="day3-exercises"></div>
+        </section>
+    </main>
+
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-info">
+                <div class="progress-text" id="progress-text">Progreso Día 1: 0%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="reset-day-btn" onclick="resetCurrentDay()">↺ Uncheck all</button>
+                <button class="complete-day-btn" onclick="completeCurrentDay()">Completar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Exercise Modal -->
+    <div id="addExerciseModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Nuevo Ejercicio</h3>
+            <div class="form-group">
+                <label class="form-label">Nombre del Ejercicio</label>
+                <input type="text" class="form-input" id="newExerciseName" placeholder="Ej: Prensa">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Número de Series</label>
+                <input type="number" class="form-input" id="newExerciseSets" value="3" min="1" max="10">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Repeticiones (ej: 8-12)</label>
+                <input type="text" class="form-input" id="newExerciseReps" placeholder="8-12">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Semana 1 (Peso)</label>
+                <input type="text" class="form-input" id="newExerciseWeek1" placeholder="10kg">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Semana 2 (Peso)</label>
+                <input type="text" class="form-input" id="newExerciseWeek2" placeholder="12kg">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Notas Técnicas</label>
+                <textarea class="form-input" id="newExerciseNotes" rows="3" placeholder="Consejos de forma..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Video (URL)</label>
+                <input type="text" class="form-input" id="newExerciseVideo" placeholder="https://youtube.com/...">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-primary" onclick="addExercise()">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del Excel
+        let workoutData = {
+            day1: {
+                name: "Día 1",
+                exercises: [
+                    {
+                        name: "Curl femoral tumbado o sentado",
+                        sets: 2,
+                        reps: "15",
+                        week1: "15x10kg",
+                        week2: "13x15kg",
+                        notes: "Importante que el empuje se realice con el talón, los pies miran hacia arriba todo el tiempo (tobillo en dorsiflexión)",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Hip thrust en máquina",
+                        sets: 3,
+                        reps: "8-10",
+                        week1: "2,5kg",
+                        week2: "Libre: 8x40kg",
+                        notes: "Puedes hacerlo en máquina de hip thrust si estás más cómoda. El pie que no trabaja está adelantado apoyando únicamente el talón. Asegúrate de apoyar bien sobre el banco la espalda alta para hacer tipo 'bisagra' y que fémur-rodilla hagan 90grados.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Prensa inclinada",
+                        sets: 3,
+                        reps: "8-10",
+                        week1: "8x20kg",
+                        week2: "10x15kg lado",
+                        notes: "Coloca los pies sobre la parte de arriba de la plataforma con la punta de estos ligeramente abierta hacia afuera. Empuja hacia arriba para quitar el seguro de la máquina y baja controlado hasta que tus rodillas lleguen al pecho aproximadamente.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Patada de glúteo en polea altura media",
+                        sets: 3,
+                        reps: "16",
+                        week1: "12,5kg",
+                        week2: "16x12,5kg",
+                        notes: "Es importante que te coloques con el torso ligeramente inclinado hacia adelante, en una posición que resulte ergonómica para ti. Piensa en empujar con el talón y controla el movimiento para mantener la tensión.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Abducciones en máquina",
+                        sets: 3,
+                        reps: "15",
+                        week1: "15kg",
+                        week2: "",
+                        notes: "La parte de la plataforma que abre y cierra debe quedarte a la altura de las rodillas. Abre lentamente, aguanta un segundo y entonces cierra. La espalda deberá ir inclinada hacia atrás sobre el respaldo.",
+                        video: "",
+                        isSuperset: false
+                    }
+                ]
+            },
+            day2: {
+                name: "Día 2",
+                exercises: [
+                    {
+                        name: "Press militar con mancuernas (banco 75°)",
+                        sets: 3,
+                        reps: "8-12",
+                        week1: "6kg",
+                        week2: "Máquina: 8x5kg por lado",
+                        notes: "Asegúrate de que tus coditos se encuentran todo el tiempo en alineación con tus agarre, de modo que estos sigan tu antebrazo, no deben quedar ni por delante ni por detrás de estos.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Gorilla row + Dominadas australianas",
+                        sets: 3,
+                        reps: "8 / 4",
+                        week1: "Gorilla 8kg",
+                        week2: "16x8kg",
+                        notes: "SUPERSERIE: Para el gorilla row es muy importante que mantengas todo el tiempo lo más estabilizada posible la pelvis. En las dominadas, apoya el pie completo sobre el suelo si lo necesitas y asegura que los coditos miren hacia abajo.",
+                        video: "",
+                        isSuperset: true
+                    },
+                    {
+                        name: "Face Pull + Pájaros c/mancuerna",
+                        sets: 3,
+                        reps: "10-12 / 12",
+                        week1: "12,5kg y 4kg",
+                        week2: "12x15kg y 12x4kg",
+                        notes: "SUPERSERIE: Inclina ligeramente el torso hacia atrás realizando una expansión torácica (sacar pecho), mira hacia la barra todo el tiempo y piensa en llevarla a tu pecho como si quisieras juntar tus escápulas.",
+                        video: "",
+                        isSuperset: true
+                    },
+                    {
+                        name: "Jalón al pecho en polea",
+                        sets: 3,
+                        reps: "8-10",
+                        week1: "25kg",
+                        week2: "",
+                        notes: "Inclina el torso ligeramente hacia atrás pero no demasiado como si quisieras sacar pecho y piensa en llevar la barra hacia ti tirando de los codos y no de las muñecas.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Elevaciones laterales + Elevaciones frontales",
+                        sets: 3,
+                        reps: "10-10-10",
+                        week1: "3kg y 5kg",
+                        week2: "",
+                        notes: "DROP SET: Coge 3 pesos distintos para cada ejercicio. Empieza con el máximo peso para 10 reps, inmediatamente el peso medio para otras 10, y sin descanso el peso mínimo para 10 reps más.",
+                        video: "",
+                        isSuperset: true
+                    }
+                ]
+            },
+            day3: {
+                name: "Día 3",
+                exercises: [
+                    {
+                        name: "Hiperextensiones sobre banco",
+                        sets: 3,
+                        reps: "8-10",
+                        week1: "Disco 5kg posición mínima",
+                        week2: "",
+                        notes: "Si haces las hiperextensiones invertidas en Multipower, asegúrate de colocar correctamente el banco (distancia) tal que, al subir, tu tibia y tu fémur queden a 90 grados. Contrae el glúteo en la fase de acortamiento.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Peso muerto en multipower",
+                        sets: 3,
+                        reps: "6-8",
+                        week1: "10kg",
+                        week2: "",
+                        notes: "Coloca un step para estar más alta y tener mayor rango de movimiento. Posiciónate en un punto en el que al bajar, la barra esté pegada a tus piernas. Piensa en llevarla hasta debajo de tus rodillas.",
+                        video: "",
+                        isSuperset: false
+                    },
+                    {
+                        name: "Hip Thrust libre o en multipower",
+                        sets: 4,
+                        reps: "8-10",
+                        week1: "",
+                        week2: "",
+                        notes: "Puedes hacerlo en máquina o multipower hasta que te sientas cómoda y segura para hacerlo con barra.",
+                        video: "",
+                        isSuperset: false
+                    }
+                ]
+            }
+        };
+
+        let currentDay = 'day1';
+        let savedData = JSON.parse(localStorage.getItem('womenWorkoutData')) || {};
+        let editMode = false;
+        let addingToDay = null;
+
+        // Initialize
+        function init() {
+            const customData = localStorage.getItem('womenWorkoutCustom');
+            if (customData) {
+                workoutData = JSON.parse(customData);
+            }
+            
+            renderExercises();
+            updateProgress();
+            loadSavedData();
+        }
+
+        function toggleEditMode() {
+            editMode = !editMode;
+            document.body.classList.toggle('edit-mode', editMode);
+            document.getElementById('editToggle').classList.toggle('active', editMode);
+            document.getElementById('editToggle').textContent = editMode ? 'Listo' : 'Editar';
+            
+            renderExercises();
+        }
+
+        function switchDay(day) {
+            currentDay = day;
+            
+            document.querySelectorAll('.day-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.day-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(day).classList.add('active');
+            
+            updateProgress();
+        }
+
+        function renderExercises() {
+            Object.keys(workoutData).forEach(day => {
+                const container = document.getElementById(`${day}-exercises`);
+                if (!container) return;
+                
+                const dayData = workoutData[day];
+                let html = '';
+                
+                dayData.exercises.forEach((exercise, exIndex) => {
+                    html += createExerciseCard(day, exIndex, exercise);
+                });
+                
+                container.innerHTML = html;
+            });
+            
+            if (editMode) {
+                loadSavedData();
+            }
+        }
+
+        function createExerciseCard(day, exIndex, exercise) {
+            const exerciseId = `${day}-${exIndex}`;
+            let setsHtml = '';
+            
+            // Dividir series a la mitad para mostrar semana 1 y semana 2
+            const midpoint = Math.ceil(exercise.sets / 2);
+            
+            for(let i = 0; i < exercise.sets; i++) {
+                const setNum = i + 1;
+                const weight = i < midpoint ? exercise.week1 : exercise.week2;
+                const label = i < midpoint ? 'S1' : 'S2';
+                
+                setsHtml += `
+                    <div class="set-row" id="${exerciseId}-set-${i}">
+                        <div class="set-number">${setNum}</div>
+                        <div class="input-group">
+                            <span class="input-label">Peso (${label})</span>
+                            <input type="text" 
+                                   class="weight-input" 
+                                   placeholder="${weight || '0kg'}" 
+                                   id="${exerciseId}-weight-${i}"
+                                   onchange="saveSetData('${day}', ${exIndex}, ${i})">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Reps</span>
+                            <input type="text" 
+                                   class="reps-input" 
+                                   placeholder="${exercise.reps}" 
+                                   id="${exerciseId}-reps-${i}"
+                                   onchange="saveSetData('${day}', ${exIndex}, ${i})">
+                        </div>
+                        <input type="checkbox" 
+                               class="set-checkbox" 
+                               id="${exerciseId}-check-${i}"
+                               onchange="toggleSetComplete('${day}', ${exIndex}, ${i})">
+                    </div>
+                `;
+            }
+            
+            const videoLink = exercise.video ? 
+                `<a href="${exercise.video}" target="_blank" class="video-link">▶ Ver</a>` : '';
+            
+            const deleteBtn = editMode ? 
+                `<button class="delete-btn" onclick="deleteExercise('${day}', ${exIndex})">🗑️</button>` : '';
+            
+            const supersetBadge = exercise.isSuperset ? 
+                `<div class="superset-badge">Superserie</div>` : '';
+            
+            const editableClass = editMode ? 'contenteditable="true"' : '';
+            
+            return `
+                <div class="exercise-card" id="${exerciseId}">
+                    ${supersetBadge}
+                    <div class="exercise-header">
+                        <div class="exercise-name" ${editableClass} onblur="updateExerciseName('${day}', ${exIndex}, this)">${exercise.name}</div>
+                        <div class="exercise-actions">
+                            ${videoLink}
+                            ${deleteBtn}
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Series</div>
+                            <div class="meta-value">${exercise.sets}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Reps</div>
+                            <div class="meta-value">${exercise.reps}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Sem 1</div>
+                            <div class="meta-value">${exercise.week1 || '-'}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Sem 2</div>
+                            <div class="meta-value">${exercise.week2 || '-'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sets-container">
+                        ${setsHtml}
+                    </div>
+                    ${editMode ? `<button class="add-set-btn" onclick="addSet('${day}', ${exIndex})">+ Añadir Serie</button>` : ''}
+                    
+                    <div class="notes-section">
+                        <div class="notes-title">💡 Notas Técnicas</div>
+                        <div class="notes-text" ${editMode ? 'contenteditable="true" onblur="updateExerciseNotes(\'' + day + '\', ' + exIndex + ', this)"' : ''}>${exercise.notes}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Edit functions
+        function openAddExerciseModal(day) {
+            addingToDay = day;
+            document.getElementById('addExerciseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('addExerciseModal').classList.remove('active');
+            document.getElementById('newExerciseName').value = '';
+            document.getElementById('newExerciseSets').value = '3';
+            document.getElementById('newExerciseReps').value = '';
+            document.getElementById('newExerciseWeek1').value = '';
+            document.getElementById('newExerciseWeek2').value = '';
+            document.getElementById('newExerciseNotes').value = '';
+            document.getElementById('newExerciseVideo').value = '';
+        }
+
+        function addExercise() {
+            const name = document.getElementById('newExerciseName').value;
+            const sets = parseInt(document.getElementById('newExerciseSets').value);
+            const reps = document.getElementById('newExerciseReps').value || '10';
+            const week1 = document.getElementById('newExerciseWeek1').value || '';
+            const week2 = document.getElementById('newExerciseWeek2').value || '';
+            const notes = document.getElementById('newExerciseNotes').value || '';
+            const video = document.getElementById('newExerciseVideo').value || '';
+
+            if (!name) {
+                alert('Por favor introduce un nombre');
+                return;
+            }
+
+            const newExercise = {
+                name: name,
+                sets: sets,
+                reps: reps,
+                week1: week1,
+                week2: week2,
+                notes: notes,
+                video: video,
+                isSuperset: false
+            };
+
+            workoutData[addingToDay].exercises.push(newExercise);
+            localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
+            
+            renderExercises();
+            closeModal();
+            updateProgress();
+        }
+
+        function deleteExercise(day, index) {
+            if (confirm('¿Eliminar este ejercicio?')) {
+                workoutData[day].exercises.splice(index, 1);
+                localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
+                renderExercises();
+                updateProgress();
+            }
+        }
+
+        function addSet(day, exIndex) {
+            workoutData[day].exercises[exIndex].sets += 1;
+            localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
+            renderExercises();
+            loadSavedData();
+        }
+
+        function updateExerciseName(day, index, element) {
+            workoutData[day].exercises[index].name = element.textContent;
+            localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
+        }
+
+        function updateExerciseNotes(day, index, element) {
+            workoutData[day].exercises[index].notes = element.textContent;
+            localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
+        }
+
+        // Data persistence
+        function saveSetData(day, exIndex, setIndex) {
+            const exerciseId = `${day}-${exIndex}`;
+            const weight = document.getElementById(`${exerciseId}-weight-${setIndex}`).value;
+            const reps = document.getElementById(`${exerciseId}-reps-${setIndex}`).value;
+            
+            if (!savedData[day]) savedData[day] = {};
+            if (!savedData[day][exIndex]) savedData[day][exIndex] = {};
+            
+            savedData[day][exIndex][setIndex] = {
+                weight: weight,
+                reps: reps,
+                completed: document.getElementById(`${exerciseId}-check-${setIndex}`).checked
+            };
+            
+            localStorage.setItem('womenWorkoutData', JSON.stringify(savedData));
+            updateProgress();
+        }
+
+        function toggleSetComplete(day, exIndex, setIndex) {
+            const exerciseId = `${day}-${exIndex}`;
+            const checkbox = document.getElementById(`${exerciseId}-check-${setIndex}`);
+            const setRow = document.getElementById(`${exerciseId}-set-${setIndex}`);
+            
+            if (checkbox.checked) {
+                setRow.classList.add('completed');
+            } else {
+                setRow.classList.remove('completed');
+            }
+            
+            saveSetData(day, exIndex, setIndex);
+        }
+
+        function loadSavedData() {
+            Object.keys(savedData).forEach(day => {
+                Object.keys(savedData[day]).forEach(exIndex => {
+                    Object.keys(savedData[day][exIndex]).forEach(setIndex => {
+                        const data = savedData[day][exIndex][setIndex];
+                        const exerciseId = `${day}-${exIndex}`;
+                        
+                        const weightInput = document.getElementById(`${exerciseId}-weight-${setIndex}`);
+                        const repsInput = document.getElementById(`${exerciseId}-reps-${setIndex}`);
+                        const checkInput = document.getElementById(`${exerciseId}-check-${setIndex}`);
+                        
+                        if (weightInput && data.weight) weightInput.value = data.weight;
+                        if (repsInput && data.reps) repsInput.value = data.reps;
+                        if (checkInput && data.completed) {
+                            checkInput.checked = true;
+                            const setRow = document.getElementById(`${exerciseId}-set-${setIndex}`);
+                            if (setRow) setRow.classList.add('completed');
+                        }
+                    });
+                });
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const dayData = workoutData[currentDay];
+            if (!dayData) return;
+            
+            let totalSets = 0;
+            let completedSets = 0;
+            let completedExercises = 0;
+            
+            dayData.exercises.forEach((exercise, exIndex) => {
+                const exerciseId = `${currentDay}-${exIndex}`;
+                let exerciseCompleted = true;
+                
+                for(let i = 0; i < exercise.sets; i++) {
+                    totalSets++;
+                    const checkbox = document.getElementById(`${exerciseId}-check-${i}`);
+                    if (checkbox && checkbox.checked) {
+                        completedSets++;
+                    } else {
+                        exerciseCompleted = false;
+                    }
+                }
+                
+                if (exerciseCompleted && exercise.sets > 0) completedExercises++;
+            });
+            
+            const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
+            
+            document.getElementById('progress-text').textContent = 
+                `Progreso ${dayData.name}: ${Math.round(percentage)}%`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            
+            document.getElementById(`${currentDay}-completed`).textContent = 
+                `${completedExercises}/${dayData.exercises.length}`;
+            document.getElementById(`${currentDay}-volume`).textContent = completedSets;
+            
+            document.querySelectorAll('.day-tab').forEach(tab => {
+                if(tab.textContent.toLowerCase().includes(currentDay === 'day1' ? 'día 1' : currentDay === 'day2' ? 'día 2' : 'día 3')) {
+                    if (percentage === 100) {
+                        tab.classList.add('completed');
+                    } else {
+                        tab.classList.remove('completed');
+                    }
+                }
+            });
+        }
+
+        function resetCurrentDay() {
+            if (!confirm('¿Borrar todas las series completadas de este día?')) return;
+            
+            const dayData = workoutData[currentDay];
+            if (!dayData) return;
+            
+            let clearedCount = 0;
+            
+            dayData.exercises.forEach((exercise, exIndex) => {
+                for(let i = 0; i < exercise.sets; i++) {
+                    const exerciseId = `${currentDay}-${exIndex}`;
+                    const checkbox = document.getElementById(`${exerciseId}-check-${i}`);
+                    const setRow = document.getElementById(`${exerciseId}-set-${i}`);
+                    
+                    if (checkbox && checkbox.checked) {
+                        checkbox.checked = false;
+                        setRow.classList.remove('completed');
+                        
+                        if (savedData[currentDay] && savedData[currentDay][exIndex] && savedData[currentDay][exIndex][i]) {
+                            savedData[currentDay][exIndex][i].completed = false;
+                        }
+                        clearedCount++;
+                    }
+                }
+            });
+            
+            localStorage.setItem('womenWorkoutData', JSON.stringify(savedData));
+            updateProgress();
+            
+            alert(`¡${clearedCount} series reiniciadas! Listo para tu entrenamiento 💪`);
+        }
+
+        function completeCurrentDay() {
+            const dayData = workoutData[currentDay];
+            if (!dayData) return;
+            
+            let allCompleted = true;
+            dayData.exercises.forEach((exercise, exIndex) => {
+                for(let i = 0; i < exercise.sets; i++) {
+                    const checkbox = document.getElementById(`${currentDay}-${exIndex}-check-${i}`);
+                    if (!checkbox.checked) {
+                        allCompleted = false;
+                        checkbox.checked = true;
+                        toggleSetComplete(currentDay, exIndex, i);
+                    }
+                }
+            });
+            
+            if (allCompleted) {
+                alert('¡Todo completado! Descansa bien 🌸');
+            } else {
+                alert('¡Día completado! Buen trabajo 💪');
+            }
+            
+            updateProgress();
+        }
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>
