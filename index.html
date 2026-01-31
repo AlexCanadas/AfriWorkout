@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Creamy/Femenine Palette */
             --bg-primary: #FDF8F3;
             --bg-secondary: #FFF5EB;
             --bg-card: #FFFFFF;
@@ -43,7 +42,6 @@
             min-height: 100vh;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
             border-bottom: 1px solid var(--border);
@@ -98,28 +96,6 @@
             background: rgba(232, 165, 152, 0.25);
         }
 
-        .edit-btn {
-            background: transparent;
-            border: 1px solid var(--warning);
-            color: var(--warning);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .edit-btn:hover {
-            background: rgba(230, 184, 156, 0.1);
-        }
-
-        .edit-btn.active {
-            background: var(--warning);
-            color: white;
-        }
-
-        /* Navigation */
         .nav-container {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
@@ -156,13 +132,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .day-tab:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
         }
 
         .day-tab.active {
@@ -177,7 +146,6 @@
             color: var(--success);
         }
 
-        /* Main Content */
         .main-content {
             max-width: 800px;
             margin: 0 auto;
@@ -213,7 +181,6 @@
             font-size: 14px;
         }
 
-        /* Exercise Card */
         .exercise-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -341,7 +308,6 @@
             color: var(--text-secondary);
         }
 
-        /* Sets Container */
         .sets-container {
             display: flex;
             flex-direction: column;
@@ -360,10 +326,6 @@
             border: 2px solid transparent;
             transition: all 0.2s;
             position: relative;
-        }
-
-        .set-row:hover {
-            border-color: var(--accent-tertiary);
         }
 
         .set-row.completed {
@@ -400,17 +362,12 @@
             font-weight: 600;
             text-align: center;
             width: 100%;
-            transition: all 0.2s;
         }
 
         .weight-input:focus, .reps-input:focus {
             outline: none;
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(232, 165, 152, 0.1);
-        }
-
-        .weight-input::placeholder, .reps-input::placeholder {
-            color: var(--text-muted);
         }
 
         .set-checkbox {
@@ -423,20 +380,12 @@
             position: relative;
             transition: all 0.3s ease;
             background: var(--bg-card);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .set-checkbox:hover {
-            border-color: var(--accent-primary);
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(232, 165, 152, 0.2);
         }
 
         .set-checkbox:checked {
             background: var(--success);
             border-color: var(--success);
             box-shadow: 0 0 15px rgba(136, 201, 161, 0.4);
-            transform: scale(1.05);
         }
 
         .set-checkbox:checked::after {
@@ -472,7 +421,6 @@
             display: flex;
         }
 
-        /* Notes Section */
         .notes-section {
             background: rgba(232, 165, 152, 0.08);
             border-left: 3px solid var(--accent-primary);
@@ -488,9 +436,6 @@
             letter-spacing: 1px;
             margin-bottom: 8px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .notes-text {
@@ -499,7 +444,6 @@
             line-height: 1.6;
         }
 
-        /* Edit Mode Styles */
         .edit-mode .exercise-name {
             background: var(--bg-input);
             border: 1px solid var(--accent-primary);
@@ -508,7 +452,6 @@
             cursor: text;
         }
 
-        /* Add Exercise Button */
         .add-exercise-btn {
             width: 100%;
             padding: 20px;
@@ -528,11 +471,6 @@
             display: block;
         }
 
-        .add-exercise-btn:hover {
-            background: rgba(232, 165, 152, 0.15);
-            transform: translateY(-2px);
-        }
-
         .add-set-btn {
             background: rgba(136, 201, 161, 0.1);
             border: 1px dashed var(--success);
@@ -550,7 +488,6 @@
             display: block;
         }
 
-        /* Progress Bar */
         .progress-container {
             position: fixed;
             bottom: 0;
@@ -560,7 +497,6 @@
             border-top: 1px solid var(--border);
             padding: 15px 20px;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .progress-content {
@@ -593,7 +529,6 @@
             height: 100%;
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             transition: width 0.5s ease;
-            border-radius: 3px;
         }
 
         .button-group {
@@ -612,12 +547,10 @@
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .reset-day-btn:hover {
             background: rgba(224, 122, 95, 0.1);
-            transform: translateY(-2px);
         }
 
         .complete-day-btn {
@@ -631,16 +564,9 @@
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(232, 165, 152, 0.3);
         }
 
-        .complete-day-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(232, 165, 152, 0.4);
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -669,7 +595,6 @@
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(139, 123, 115, 0.2);
         }
 
         .modal-title {
@@ -702,11 +627,6 @@
             font-size: 14px;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
-
         .modal-buttons {
             display: flex;
             gap: 10px;
@@ -735,7 +655,6 @@
             cursor: pointer;
         }
 
-        /* Stats Summary */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -751,11 +670,6 @@
             text-align: center;
             transition: all 0.3s;
             box-shadow: 0 4px 15px var(--shadow);
-        }
-
-        .stat-box:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-primary);
         }
 
         .stat-value {
@@ -788,31 +702,10 @@
             display: block;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
-            .exercise-meta {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .set-row {
-                grid-template-columns: 30px 1fr 1fr 50px;
-                gap: 8px;
-                padding: 10px;
-            }
-            
-            .day-title {
-                font-size: 24px;
-            }
-
-            .button-group {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .reset-day-btn, .complete-day-btn {
-                padding: 10px 16px;
-                font-size: 12px;
-            }
+            .day-title { font-size: 24px; }
+            .set-row { grid-template-columns: 30px 1fr 1fr 50px; }
+            .button-group { flex-direction: column; }
         }
     </style>
 </head>
@@ -837,12 +730,10 @@
     </nav>
 
     <main class="main-content">
-        <!-- Edit Mode Hint -->
         <div class="edit-hint">
             ✏️ Modo Edición: Toca nombres para editar, usa + para añadir ejercicios/series, o 🗑️ para eliminar
         </div>
 
-        <!-- Day 1 -->
         <section id="day1" class="day-section active">
             <h2 class="day-title">Día 1: Lower Body</h2>
             <p class="day-subtitle">Femoral, Glúteos y Cuádriceps</p>
@@ -862,7 +753,6 @@
             <div id="day1-exercises"></div>
         </section>
 
-        <!-- Day 2 -->
         <section id="day2" class="day-section">
             <h2 class="day-title">Día 2: Upper Body</h2>
             <p class="day-subtitle">Empuje, Espalda y Hombros</p>
@@ -882,7 +772,6 @@
             <div id="day2-exercises"></div>
         </section>
 
-        <!-- Day 3 -->
         <section id="day3" class="day-section">
             <h2 class="day-title">Día 3: Posterior Chain</h2>
             <p class="day-subtitle">Espalda Baja, Peso Muerto, Glúteos y Cuádriceps</p>
@@ -918,7 +807,6 @@
         </div>
     </div>
 
-    <!-- Add Exercise Modal -->
     <div id="addExerciseModal" class="modal">
         <div class="modal-content">
             <h3 class="modal-title">Nuevo Ejercicio</h3>
@@ -963,7 +851,7 @@
     </div>
 
     <script>
-        // Datos completos del Excel (con videos y ejercicios faltantes añadidos)
+        // DATOS CORREGIDOS CON LINKS EXACTOS DEL EXCEL
         let workoutData = {
             day1: {
                 name: "Día 1",
@@ -1137,13 +1025,11 @@
         let editMode = false;
         let addingToDay = null;
 
-        // Initialize
         function init() {
             const customData = localStorage.getItem('womenWorkoutCustom');
             if (customData) {
                 workoutData = JSON.parse(customData);
             }
-            
             renderExercises();
             updateProgress();
             loadSavedData();
@@ -1154,19 +1040,15 @@
             document.body.classList.toggle('edit-mode', editMode);
             document.getElementById('editToggle').classList.toggle('active', editMode);
             document.getElementById('editToggle').textContent = editMode ? 'Listo' : 'Editar';
-            
             renderExercises();
         }
 
         function switchDay(day) {
             currentDay = day;
-            
             document.querySelectorAll('.day-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-            
             document.querySelectorAll('.day-section').forEach(section => section.classList.remove('active'));
             document.getElementById(day).classList.add('active');
-            
             updateProgress();
         }
 
@@ -1174,26 +1056,19 @@
             Object.keys(workoutData).forEach(day => {
                 const container = document.getElementById(`${day}-exercises`);
                 if (!container) return;
-                
                 const dayData = workoutData[day];
                 let html = '';
-                
                 dayData.exercises.forEach((exercise, exIndex) => {
                     html += createExerciseCard(day, exIndex, exercise);
                 });
-                
                 container.innerHTML = html;
             });
-            
-            if (editMode) {
-                loadSavedData();
-            }
+            if (editMode) loadSavedData();
         }
 
         function createExerciseCard(day, exIndex, exercise) {
             const exerciseId = `${day}-${exIndex}`;
             let setsHtml = '';
-            
             const midpoint = Math.ceil(exercise.sets / 2);
             
             for(let i = 0; i < exercise.sets; i++) {
@@ -1231,13 +1106,10 @@
             
             const videoLink = exercise.video ? 
                 `<a href="${exercise.video}" target="_blank" class="video-link">▶ Ver Video</a>` : '';
-            
             const deleteBtn = editMode ? 
                 `<button class="delete-btn" onclick="deleteExercise('${day}', ${exIndex})">🗑️</button>` : '';
-            
             const supersetBadge = exercise.isSuperset ? 
                 `<div class="superset-badge">Superserie</div>` : '';
-            
             const editableClass = editMode ? 'contenteditable="true"' : '';
             
             return `
@@ -1250,31 +1122,14 @@
                             ${deleteBtn}
                         </div>
                     </div>
-                    
                     <div class="exercise-meta">
-                        <div class="meta-item">
-                            <div class="meta-label">Series</div>
-                            <div class="meta-value">${exercise.sets}</div>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-label">Reps</div>
-                            <div class="meta-value">${exercise.reps}</div>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-label">Sem 1</div>
-                            <div class="meta-value">${exercise.week1 || '-'}</div>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-label">Sem 2</div>
-                            <div class="meta-value">${exercise.week2 || '-'}</div>
-                        </div>
+                        <div class="meta-item"><div class="meta-label">Series</div><div class="meta-value">${exercise.sets}</div></div>
+                        <div class="meta-item"><div class="meta-label">Reps</div><div class="meta-value">${exercise.reps}</div></div>
+                        <div class="meta-item"><div class="meta-label">Sem 1</div><div class="meta-value">${exercise.week1 || '-'}</div></div>
+                        <div class="meta-item"><div class="meta-label">Sem 2</div><div class="meta-value">${exercise.week2 || '-'}</div></div>
                     </div>
-                    
-                    <div class="sets-container">
-                        ${setsHtml}
-                    </div>
+                    <div class="sets-container">${setsHtml}</div>
                     ${editMode ? `<button class="add-set-btn" onclick="addSet('${day}', ${exIndex})">+ Añadir Serie</button>` : ''}
-                    
                     <div class="notes-section">
                         <div class="notes-title">💡 Notas Técnicas</div>
                         <div class="notes-text" ${editMode ? 'contenteditable="true" onblur="updateExerciseNotes(\'' + day + '\', ' + exIndex + ', this)"' : ''}>${exercise.notes}</div>
@@ -1283,11 +1138,9 @@
             `;
         }
 
-        // Export to Excel/CSV
         function exportToExcel() {
-            let csv = 'Día,Ejercicio,Serie,Peso Introducido,Reps Realizadas,Fecha\n';
+            let csv = 'Día,Ejercicio,Serie,Peso,Reps,Fecha\n';
             const date = new Date().toLocaleDateString();
-            
             Object.keys(savedData).forEach(day => {
                 const dayName = workoutData[day].name;
                 Object.keys(savedData[day]).forEach(exIndex => {
@@ -1300,21 +1153,17 @@
                     });
                 });
             });
-            
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
+            link.setAttribute("href", URL.createObjectURL(blob));
             link.setAttribute("download", `entrenamiento_${new Date().toISOString().split('T')[0]}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
             alert('¡Datos exportados! Revisa tu carpeta de descargas 📊');
         }
 
-        // Edit functions
         function openAddExerciseModal(day) {
             addingToDay = day;
             document.getElementById('addExerciseModal').classList.add('active');
@@ -1334,33 +1183,19 @@
 
         function addExercise() {
             const name = document.getElementById('newExerciseName').value;
-            const sets = parseInt(document.getElementById('newExerciseSets').value);
-            const reps = document.getElementById('newExerciseReps').value || '10';
-            const week1 = document.getElementById('newExerciseWeek1').value || '';
-            const week2 = document.getElementById('newExerciseWeek2').value || '';
-            const notes = document.getElementById('newExerciseNotes').value || '';
-            const video = document.getElementById('newExerciseVideo').value || '';
-            const isSuperset = document.getElementById('newExerciseSuperset').checked;
-
-            if (!name) {
-                alert('Por favor introduce un nombre');
-                return;
-            }
-
+            if (!name) { alert('Por favor introduce un nombre'); return; }
             const newExercise = {
                 name: name,
-                sets: sets,
-                reps: reps,
-                week1: week1,
-                week2: week2,
-                notes: notes,
-                video: video,
-                isSuperset: isSuperset
+                sets: parseInt(document.getElementById('newExerciseSets').value),
+                reps: document.getElementById('newExerciseReps').value || '10',
+                week1: document.getElementById('newExerciseWeek1').value || '',
+                week2: document.getElementById('newExerciseWeek2').value || '',
+                notes: document.getElementById('newExerciseNotes').value || '',
+                video: document.getElementById('newExerciseVideo').value || '',
+                isSuperset: document.getElementById('newExerciseSuperset').checked
             };
-
             workoutData[addingToDay].exercises.push(newExercise);
             localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
-            
             renderExercises();
             closeModal();
             updateProgress();
@@ -1397,25 +1232,21 @@
         }
 
         function updateExerciseNotes(day, index, element) {
-            worksheetData[day].exercises[index].notes = element.textContent;
+            workoutData[day].exercises[index].notes = element.textContent;
             localStorage.setItem('womenWorkoutCustom', JSON.stringify(workoutData));
         }
 
-        // Data persistence
         function saveSetData(day, exIndex, setIndex) {
             const exerciseId = `${day}-${exIndex}`;
             const weight = document.getElementById(`${exerciseId}-weight-${setIndex}`).value;
             const reps = document.getElementById(`${exerciseId}-reps-${setIndex}`).value;
-            
             if (!savedData[day]) savedData[day] = {};
             if (!savedData[day][exIndex]) savedData[day][exIndex] = {};
-            
             savedData[day][exIndex][setIndex] = {
                 weight: weight,
                 reps: reps,
                 completed: document.getElementById(`${exerciseId}-check-${setIndex}`).checked
             };
-            
             localStorage.setItem('womenWorkoutData', JSON.stringify(savedData));
             updateProgress();
         }
@@ -1424,13 +1255,8 @@
             const exerciseId = `${day}-${exIndex}`;
             const checkbox = document.getElementById(`${exerciseId}-check-${setIndex}`);
             const setRow = document.getElementById(`${exerciseId}-set-${setIndex}`);
-            
-            if (checkbox.checked) {
-                setRow.classList.add('completed');
-            } else {
-                setRow.classList.remove('completed');
-            }
-            
+            if (checkbox.checked) setRow.classList.add('completed');
+            else setRow.classList.remove('completed');
             saveSetData(day, exIndex, setIndex);
         }
 
@@ -1440,11 +1266,9 @@
                     Object.keys(savedData[day][exIndex]).forEach(setIndex => {
                         const data = savedData[day][exIndex][setIndex];
                         const exerciseId = `${day}-${exIndex}`;
-                        
                         const weightInput = document.getElementById(`${exerciseId}-weight-${setIndex}`);
                         const repsInput = document.getElementById(`${exerciseId}-reps-${setIndex}`);
                         const checkInput = document.getElementById(`${exerciseId}-check-${setIndex}`);
-                        
                         if (weightInput && data.weight) weightInput.value = data.weight;
                         if (repsInput && data.reps) repsInput.value = data.reps;
                         if (checkInput && data.completed) {
@@ -1461,85 +1285,51 @@
         function updateProgress() {
             const dayData = workoutData[currentDay];
             if (!dayData) return;
-            
-            let totalSets = 0;
-            let completedSets = 0;
-            let completedExercises = 0;
-            
+            let totalSets = 0, completedSets = 0, completedExercises = 0;
             dayData.exercises.forEach((exercise, exIndex) => {
                 const exerciseId = `${currentDay}-${exIndex}`;
                 let exerciseCompleted = true;
-                
                 for(let i = 0; i < exercise.sets; i++) {
                     totalSets++;
                     const checkbox = document.getElementById(`${exerciseId}-check-${i}`);
-                    if (checkbox && checkbox.checked) {
-                        completedSets++;
-                    } else {
-                        exerciseCompleted = false;
-                    }
+                    if (checkbox && checkbox.checked) completedSets++;
+                    else exerciseCompleted = false;
                 }
-                
                 if (exerciseCompleted && exercise.sets > 0) completedExercises++;
             });
-            
             const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
-            
-            document.getElementById('progress-text').textContent = 
-                `Progreso ${dayData.name}: ${Math.round(percentage)}%`;
+            document.getElementById('progress-text').textContent = `Progreso ${dayData.name}: ${Math.round(percentage)}%`;
             document.getElementById('progress-bar').style.width = `${percentage}%`;
-            
-            document.getElementById(`${currentDay}-completed`).textContent = 
-                `${completedExercises}/${dayData.exercises.length}`;
+            document.getElementById(`${currentDay}-completed`).textContent = `${completedExercises}/${dayData.exercises.length}`;
             document.getElementById(`${currentDay}-volume`).textContent = completedSets;
-            
-            document.querySelectorAll('.day-tab').forEach(tab => {
-                if(tab.textContent.toLowerCase().includes(currentDay === 'day1' ? 'día 1' : currentDay === 'day2' ? 'día 2' : 'día 3')) {
-                    if (percentage === 100) {
-                        tab.classList.add('completed');
-                    } else {
-                        tab.classList.remove('completed');
-                    }
-                }
-            });
         }
 
         function resetCurrentDay() {
             if (!confirm('¿Borrar todas las series completadas de este día?')) return;
-            
             const dayData = workoutData[currentDay];
             if (!dayData) return;
-            
             let clearedCount = 0;
-            
             dayData.exercises.forEach((exercise, exIndex) => {
                 for(let i = 0; i < exercise.sets; i++) {
                     const exerciseId = `${currentDay}-${exIndex}`;
                     const checkbox = document.getElementById(`${exerciseId}-check-${i}`);
                     const setRow = document.getElementById(`${exerciseId}-set-${i}`);
-                    
                     if (checkbox && checkbox.checked) {
                         checkbox.checked = false;
                         setRow.classList.remove('completed');
-                        
-                        if (savedData[currentDay] && savedData[currentDay][exIndex] && savedData[currentDay][exIndex][i]) {
-                            savedData[currentDay][exIndex][i].completed = false;
-                        }
+                        if (savedData[currentDay]?.[exIndex]?.[i]) savedData[currentDay][exIndex][i].completed = false;
                         clearedCount++;
                     }
                 }
             });
-            
             localStorage.setItem('womenWorkoutData', JSON.stringify(savedData));
             updateProgress();
-            
             alert(`¡${clearedCount} series reiniciadas! Listo para tu entrenamiento 💪`);
         }
 
         function completeCurrentDay() {
             const dayData = workoutData[currentDay];
             if (!dayData) return;
-            
             let allCompleted = true;
             dayData.exercises.forEach((exercise, exIndex) => {
                 for(let i = 0; i < exercise.sets; i++) {
@@ -1551,17 +1341,10 @@
                     }
                 }
             });
-            
-            if (allCompleted) {
-                alert('¡Todo completado! Descansa bien 🌸');
-            } else {
-                alert('¡Día completado! Buen trabajo 💪');
-            }
-            
+            alert(allCompleted ? '¡Todo completado! Descansa bien 🌸' : '¡Día completado! Buen trabajo 💪');
             updateProgress();
         }
 
-        // Initialize
         init();
     </script>
 </body>
