@@ -86,8 +86,6 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -386,6 +384,7 @@
             background: var(--success);
             border-color: var(--success);
             box-shadow: 0 0 15px rgba(136, 201, 161, 0.4);
+            transform: scale(1.05);
         }
 
         .set-checkbox:checked::after {
@@ -801,7 +800,7 @@
                 </div>
             </div>
             <div class="button-group">
-                <button class="reset-day-btn" onclick="resetCurrentDay()">↺ Reset</button>
+                <button class="reset-day-btn" onclick="resetCurrentDay()">↺ Uncheck all</button>
                 <button class="complete-day-btn" onclick="completeCurrentDay()">Completar</button>
             </div>
         </div>
@@ -851,7 +850,7 @@
     </div>
 
     <script>
-        // DATOS CORREGIDOS CON LINKS EXACTOS DEL EXCEL
+        // DATOS CON VÍDEOS CORREGIDOS DEL EXCEL
         let workoutData = {
             day1: {
                 name: "Día 1",
@@ -860,50 +859,50 @@
                         name: "Curl femoral tumbado o sentado",
                         sets: 2,
                         reps: "15",
-                        week1: "15x10kg",
-                        week2: "13x15kg",
+                        week1: "",
+                        week2: "",
                         notes: "Importante que el empuje se realice con el talón, los pies miran hacia arriba todo el tiempo (tobillo en dorsiflexión).",
-                        video: "https://www.youtube.com/watch?v=1tSq1t6m7Dg",
+                        video: "https://www.youtube.com/watch?v=klBXMbpCbJA",
                         isSuperset: false
                     },
                     {
                         name: "Hip thrust en máquina",
                         sets: 3,
                         reps: "8-10",
-                        week1: "2,5kg",
-                        week2: "Libre: 8x40kg",
+                        week1: "",
+                        week2: "",
                         notes: "Puedes hacerlo en máquina de hip thrust si estás más cómoda. El pie que no trabaja está adelantado apoyando únicamente el talón. Asegúrate de apoyar bien sobre el banco la espalda alta para hacer tipo 'bisagra' y que fémur-rodilla hagan 90grados.",
-                        video: "https://www.youtube.com/watch?v=Zp26q4BYf28",
+                        video: "https://www.youtube.com/watch?v=K6OSMY_aXSQ",
                         isSuperset: false
                     },
                     {
                         name: "Prensa inclinada",
                         sets: 3,
                         reps: "8-10",
-                        week1: "8x20kg",
-                        week2: "10x15kg lado",
+                        week1: "",
+                        week2: "",
                         notes: "Coloca los pies sobre la parte de arriba de la plataforma con la punta de estos ligeramente abierta hacia afuera. Empuja hacia arriba para quitar el seguro de la máquina y baja controlado hasta que tus rodillas lleguen al pecho aproximadamente.",
-                        video: "https://www.youtube.com/watch?v=5foJiIVhs8Q",
+                        video: "https://www.youtube.com/watch?v=_11a4MJTAOQ",
                         isSuperset: false
                     },
                     {
                         name: "Patada de glúteo en polea altura media",
                         sets: 3,
                         reps: "16",
-                        week1: "12,5kg",
-                        week2: "16x12,5kg",
+                        week1: "",
+                        week2: "",
                         notes: "Es importante que te coloques con el torso ligeramente inclinado hacia adelante, en una posición que resulte ergonómica para ti. Piensa en empujar con el talón y controla el movimiento para mantener la tensión.",
-                        video: "https://www.youtube.com/shorts/sI9p70_Wc6o",
+                        video: "https://www.youtube.com/watch?v=0otQsaEAatg",
                         isSuperset: false
                     },
                     {
                         name: "Abducciones en máquina",
                         sets: 3,
                         reps: "15",
-                        week1: "15kg",
+                        week1: "",
                         week2: "",
                         notes: "La parte de la plataforma que abre y cierra debe quedarte a la altura de las rodillas. Abre lentamente, aguanta un segundo y entonces cierra. La espalda deberá ir inclinada hacia atrás sobre el respaldo.",
-                        video: "https://www.youtube.com/watch?v=G_p6NUL66Xw",
+                        video: "https://www.youtube.com/shorts/ZDEwZ3KFq8g",
                         isSuperset: false
                     }
                 ]
@@ -915,50 +914,50 @@
                         name: "Press militar con mancuernas (banco 75°)",
                         sets: 3,
                         reps: "8-12",
-                        week1: "6kg",
-                        week2: "Máquina: 8x5kg por lado",
+                        week1: "",
+                        week2: "",
                         notes: "Asegúrate de que tus coditos se encuentran todo el tiempo en alineación con tus agarre, de modo que estos sigan tu antebrazo, no deben quedar ni por delante ni por detrás de estos.",
-                        video: "https://www.youtube.com/watch?v=V0dFqqX-ydY",
+                        video: "https://www.youtube.com/watch?v=j-57kSLZIpI",
                         isSuperset: false
                     },
                     {
                         name: "Gorilla row + Dominadas australianas",
                         sets: 3,
                         reps: "8 / 4",
-                        week1: "Gorilla 8kg",
-                        week2: "16x8kg",
+                        week1: "",
+                        week2: "",
                         notes: "SUPERSERIE: Para el gorilla row es muy importante que mantengas todo el tiempo lo más estabilizada posible la pelvis. En las dominadas, apoya el pie completo sobre el suelo si lo necesitas y asegura que los coditos miren hacia abajo.",
-                        video: "https://www.youtube.com/watch?v=Eu5CUP6pD4Q",
+                        video: "https://www.youtube.com/watch?v=ZdBl39eiPIw",
                         isSuperset: true
                     },
                     {
-                        name: "Face Pull + Pájaros c/mancuerna",
+                        name: "Face Pull + Pájaros c/mancuerna pendular",
                         sets: 3,
                         reps: "10-12 / 12",
-                        week1: "12,5kg y 4kg",
-                        week2: "12x15kg y 12x4kg",
+                        week1: "",
+                        week2: "",
                         notes: "SUPERSERIE: Inclina ligeramente el torso hacia atrás realizando una expansión torácica (sacar pecho), mira hacia la barra todo el tiempo y piensa en llevarla a tu pecho como si quisieras juntar tus escápulas.",
-                        video: "https://www.youtube.com/watch?v=4aVy2Xj6wYs",
+                        video: "https://www.youtube.com/watch?v=fTzB9gtmguo",
                         isSuperset: true
                     },
                     {
                         name: "Jalón al pecho en polea",
                         sets: 3,
                         reps: "8-10",
-                        week1: "25kg",
+                        week1: "",
                         week2: "",
                         notes: "Inclina el torso ligeramente hacia atrás pero no demasiado como si quisieras sacar pecho y piensa en llevar la barra hacia ti tirando de los codos y no de las muñecas.",
-                        video: "https://www.youtube.com/watch?v=CAwf7n6Luuc",
+                        video: "https://www.youtube.com/watch?v=-isSAVB9LQE",
                         isSuperset: false
                     },
                     {
                         name: "Elevaciones laterales + Elevaciones frontales",
                         sets: 3,
                         reps: "10-10-10",
-                        week1: "3kg y 5kg",
+                        week1: "",
                         week2: "",
                         notes: "DROP SET: Coge 3 pesos distintos para cada ejercicio. Empieza con el máximo peso para 10 reps, inmediatamente el peso medio para otras 10, y sin descanso el peso mínimo para 10 reps más.",
-                        video: "https://www.youtube.com/watch?v=3VcKaXpzqRo",
+                        video: "https://www.youtube.com/watch?v=Q2YD1I3-h2g",
                         isSuperset: true
                     }
                 ]
@@ -970,20 +969,20 @@
                         name: "Hiperextensiones sobre banco",
                         sets: 3,
                         reps: "8-10",
-                        week1: "Disco 5kg posición mínima",
+                        week1: "",
                         week2: "",
                         notes: "Si haces las hiperextensiones invertidas en Multipower, asegúrate de colocar correctamente el banco (distancia) tal que, al subir, tu tibia y tu fémur queden a 90 grados. Contrae el glúteo en la fase de acortamiento.",
-                        video: "https://www.youtube.com/watch?v=ph3pddBqOJg",
+                        video: "https://www.youtube.com/watch?v=6h7znpnXoiU",
                         isSuperset: false
                     },
                     {
                         name: "Peso muerto en multipower",
                         sets: 3,
                         reps: "6-8",
-                        week1: "10kg",
+                        week1: "",
                         week2: "",
                         notes: "Coloca un step para estar más alta y tener mayor rango de movimiento. Posiciónate en un punto en el que al bajar, la barra esté pegada a tus piernas. Piensa en llevarla hasta debajo de tus rodillas.",
-                        video: "https://www.youtube.com/watch?v=9k5at7dAvWo",
+                        video: "https://www.youtube.com/watch?v=t292lFsg0RQ",
                         isSuperset: false
                     },
                     {
@@ -993,7 +992,7 @@
                         week1: "",
                         week2: "",
                         notes: "Puedes hacerlo en máquina o multipower hasta que te sientas cómoda y segura para hacerlo con barra.",
-                        video: "https://www.youtube.com/watch?v=Zp26q4BYf28",
+                        video: "https://www.youtube.com/watch?v=8-go9_JfAsg",
                         isSuperset: false
                     },
                     {
@@ -1003,7 +1002,7 @@
                         week1: "",
                         week2: "",
                         notes: "Busca un apoyo sobre el que agarrarte con la otra mano. Carga contralateral significa que sostienes la mancuerna en el lado opuesto a la pierna que trabaja.",
-                        video: "https://www.youtube.com/watch?v=2-TOX8mC4vY",
+                        video: "https://www.youtube.com/watch?v=V4BR4LA1n3Q",
                         isSuperset: false
                     },
                     {
@@ -1013,7 +1012,7 @@
                         week1: "",
                         week2: "",
                         notes: "Extensión de cuádriceps en máquina. Controla el movimiento y contrae al final del recorrido.",
-                        video: "https://www.youtube.com/watch?v=YQ2s_Y7g5Qk",
+                        video: "https://www.youtube.com/watch?v=QKSLOeFS_SU",
                         isSuperset: false
                     }
                 ]
@@ -1138,9 +1137,14 @@
             `;
         }
 
+        // FUNCIÓN EXPORTAR EXCEL CORREGIDA (UTF-8 con BOM para Excel)
         function exportToExcel() {
-            let csv = 'Día,Ejercicio,Serie,Peso,Reps,Fecha\n';
+            // Añadir BOM para que Excel reconozca UTF-8
+            let csv = '\uFEFF';
+            csv += 'Día;Ejercicio;Serie;Peso;Reps;Fecha\n';
+            
             const date = new Date().toLocaleDateString();
+            
             Object.keys(savedData).forEach(day => {
                 const dayName = workoutData[day].name;
                 Object.keys(savedData[day]).forEach(exIndex => {
@@ -1148,20 +1152,25 @@
                     Object.keys(savedData[day][exIndex]).forEach(setIndex => {
                         const data = savedData[day][exIndex][setIndex];
                         if (data.weight || data.reps) {
-                            csv += `${dayName},"${exName}",${parseInt(setIndex)+1},"${data.weight || ''}","${data.reps || ''}",${date}\n`;
+                            // Usar ; como separador y escapar comillas
+                            const cleanName = exName.replace(/"/g, '""');
+                            csv += `${dayName};"${cleanName}";${parseInt(setIndex)+1};"${data.weight || ''}";"${data.reps || ''}";${date}\n`;
                         }
                     });
                 });
             });
+            
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
-            link.setAttribute("href", URL.createObjectURL(blob));
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
             link.setAttribute("download", `entrenamiento_${new Date().toISOString().split('T')[0]}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            alert('¡Datos exportados! Revisa tu carpeta de descargas 📊');
+            
+            alert('¡Excel exportado! Ábrelo con Excel y verás las columnas bien separadas 📊');
         }
 
         function openAddExerciseModal(day) {
